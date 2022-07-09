@@ -1,5 +1,4 @@
 const db = require('../model')
-const userModel = require('../model/user.model')
 const User = db.users
 
 exports.findAll = async () => {

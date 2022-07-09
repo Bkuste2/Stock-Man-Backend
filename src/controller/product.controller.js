@@ -1,17 +1,17 @@
 const cors = require("cors")
 const { response } = require("express")
-const userService = require("../service/user.service")
+const productService = require("../service/product.service")
 
 exports.findAll = async ( req, res ) => {
     try {
-        const users = await userService.findAll()
+        const products = await productService.findAll()
         return res.status(200).json({
             status:200,
-            data: users,
-            message: 'Usuários Listados Com Sucesso',
+            data: products,
+            message: 'Produtos Listados Com Sucesso',
         })
     } catch (e) {
-        response.send(400).json({
+        res.send(400).json({
             status:400,
             message:e,
         })
@@ -21,11 +21,11 @@ exports.findAll = async ( req, res ) => {
 exports.findById = async ( req, res ) => {
     try {
         const id = parseInt(req.body.id);
-        const user = await userService.findById(id)
+        const product = await productService.findById(id)
         res.status(200).json({
             status: 200,
-            data: user,
-            message: 'Usuário encontrado com sucesso',
+            data: product,
+            message: 'Produto encontrado com sucesso',
         })
     } catch (e) {
         res.send(400).json({
@@ -37,8 +37,8 @@ exports.findById = async ( req, res ) => {
 
 exports.create = async ( req, res ) => {
     try {
-        const { username, email, password } = req.body
-        const user = userService.create(username, email, password)
+        const { name, units, price } = req.body
+        const user = userService.create( name, units, price )
         res.status(201).send({
             body: user,
         })
@@ -46,7 +46,7 @@ exports.create = async ( req, res ) => {
         return (
             res.status(400).json({
                 status: 400, 
-                message: "Erro ao cadastrar usuário. ERROR: " + e.message
+                message: "Erro ao cadastrar produto. ERROR: " + e.message
             })
         )
     }
@@ -55,12 +55,12 @@ exports.create = async ( req, res ) => {
 exports.update = async ( req, res ) => {
     try {
         const id = parseInt(req.params.id)
-        const { username, email, password } = req.body
+        const { name, units, price } = req.body
 
-        await userService.update(id,username, email, password)
+        await userService.update( id, name, units, price )
 
         res.status(200).send({
-            message: 'Usuário alterado com sucesso',
+            message: 'Produto alterado com sucesso',
             body: {
                 username,
                 email,
@@ -80,12 +80,12 @@ exports.delete = async ( req, res ) => {
         const id = req.body
         userService.delete(id)
         res.status(200).send({
-            message: "Usuário Deletado!"
+            message: "Produto Deletado!"
         })
     } catch (e) {
         res.status(400).json({
             status:400,
-            message: "Ocorreu um erro ao deletar o usuário. ERROR: " + e.message,
+            message: "Ocorreu um erro ao deletar o Produto. ERROR: " + e.message,
         })
     }
 }

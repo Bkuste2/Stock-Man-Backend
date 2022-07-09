@@ -4,6 +4,7 @@ const app = express()
 
 const index = require('./router/index')
 const userRouter = require('./router/user.router')
+const productRouter = require('./router/product.router')
 
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
@@ -12,5 +13,6 @@ app.use(cors())
 
 app.use(index)
 app.use('/api', userRouter)
+app.use('/api', productRouter)
 
 module.exports = app;
