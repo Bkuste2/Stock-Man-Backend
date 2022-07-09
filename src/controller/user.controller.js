@@ -1,5 +1,3 @@
-const cors = require("cors")
-const { response } = require("express")
 const userService = require("../service/user.service")
 
 exports.findAll = async ( req, res ) => {
@@ -11,7 +9,7 @@ exports.findAll = async ( req, res ) => {
             message: 'Usuários Listados Com Sucesso',
         })
     } catch (e) {
-        response.send(400).json({
+        res.send(400).json({
             status:400,
             message:e,
         })
@@ -20,7 +18,7 @@ exports.findAll = async ( req, res ) => {
 
 exports.findById = async ( req, res ) => {
     try {
-        const id = parseInt(req.body.id);
+        const id = parseInt(req.params.id);
         const user = await userService.findById(id)
         res.status(200).json({
             status: 200,
@@ -40,7 +38,10 @@ exports.create = async ( req, res ) => {
         const { username, email, password } = req.body
         const user = userService.create(username, email, password)
         res.status(201).send({
-            body: user,
+            message: 'Usuário criado com sucesso',
+            body: {
+                user,
+            },
         })
     } catch (e) {
         return (
@@ -77,8 +78,8 @@ exports.update = async ( req, res ) => {
 
 exports.delete = async ( req, res ) => {
     try {
-        const id = req.body
-        userService.delete(id)
+        const id = parseInt(req.params.id)
+        await userService.delete(id)
         res.status(200).send({
             message: "Usuário Deletado!"
         })

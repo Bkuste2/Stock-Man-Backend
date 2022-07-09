@@ -4,7 +4,7 @@ const Product = db.products
 exports.findAll = async () => {
     try {
         const products = await Product.findAll({
-            attributes: ['id', 'name', 'units', 'price']
+            attributes: ['id', 'name', 'description', 'price', 'quantity']
         })
         return products
     } catch (e) {
@@ -15,41 +15,41 @@ exports.findAll = async () => {
 exports.findById = async (id) => {
     try {
         const product = await Product.findById(id, {
-            attributes: ['id', 'name', 'units', 'price']
+            attributes: ['id', 'name', 'description', 'price', 'quantity']
         })
-        return product
+        return product 
     } catch (e) {
         throw Error('Ocorreu um erro ao selecionar o produto. ERROR: ' + e.message)
     } 
 }
 
-exports.create = async ( name, units, price ) => {
+exports.create = async ( name, description, price, quantity ) => {
     try {
-        const product = await Product.create({ name, units, price })
+        const product= await Product.create({ name, description, price, quantity })
         return product
     } catch (e) {
-        throw Error(`Ocorreu um erro ao criar o produto "${name}". ERROR: ` + e.message)
+        throw Error(`Ocorreu um erro ao criar o produto. ERROR: ` + e.message)
     } 
 }
 
-exports.update = async({id, name, units, price}) => {
+exports.update = async({ id, name, description, price, quantity }) => {
     try {
         await Product.update(
-            {name, units, price},
-            {where: {id}}
+            { name, description, price, quantity },
+            { where: {id: id}}
         )
     } catch (e) {
-        throw Error("Erro ao alterar informações do produto. ERROR: " + e.message)
+        throw Error("Erro ao alterar informações. ERROR: " + e.message)
     }
 }
 
 exports.delete = async (id) => {
     try {
         const product = await Product.destroy({
-            where:{id}
+            where:{ id: id }
         })
         return product
     } catch (e) { 
-        throw Error(`Ocorreu um erro ao excluir produto. ERROR: ` + e.message)
+        throw Error(`Ocorreu um erro ao excluir o produto. ERROR: ` + e.message)
     } 
 }

@@ -1,8 +1,6 @@
-const cors = require("cors")
-const { response } = require("express")
 const productService = require("../service/product.service")
 
-exports.findAll = async ( req, res ) => {
+exports.findAll = async (req, res) => {
     try {
         const products = await productService.findAll()
         return res.status(200).json({
@@ -18,9 +16,9 @@ exports.findAll = async ( req, res ) => {
     }
 }
 
-exports.findById = async ( req, res ) => {
+exports.findById = async (req, res) => {
     try {
-        const id = parseInt(req.body.id);
+        const id = parseInt(req.params.id);
         const product = await productService.findById(id)
         res.status(200).json({
             status: 200,
@@ -35,57 +33,60 @@ exports.findById = async ( req, res ) => {
     }
 }
 
-exports.create = async ( req, res ) => {
+exports.create = async (req, res) => {
     try {
-        const { name, units, price } = req.body
-        const user = userService.create( name, units, price )
+        const { name, description, price, quantity } = req.body
+        const product = productService.create( name, description, price, quantity )
         res.status(201).send({
-            body: user,
+            message: 'Produto criado com sucesso',
+            body: {
+                product,
+            },
         })
     } catch (e) {
-        return (
-            res.status(400).json({
-                status: 400, 
-                message: "Erro ao cadastrar produto. ERROR: " + e.message
-            })
-        )
+        return res.status(400).json({
+            status: 400, 
+            message: "Erro ao cadastrar produto. ERROR: " + e.message
+        })
+        
     }
 }
 
-exports.update = async ( req, res ) => {
+exports.update = async (req, res) => {
     try {
         const id = parseInt(req.params.id)
-        const { name, units, price } = req.body
+        const { name, description, price, quantity } = req.body
 
-        await userService.update( id, name, units, price )
+        await productService.update( id, name, description, price, quantity )
 
         res.status(200).send({
             message: 'Produto alterado com sucesso',
             body: {
-                username,
-                email,
-                password
+                name, 
+                description, 
+                price, 
+                quantity,
             }
         })
     } catch (e) {
-        res.status(400).json({
+        return res.status(400).json({
             status: 400,
             message: "Erro ao salvar alterações. ERROR: " + e.message,
         })
     }
 }
 
-exports.delete = async ( req, res ) => {
+exports.delete = async (req, res) => {
     try {
-        const id = req.body
-        userService.delete(id)
+        const id = parseInt(req.params.id)
+        await productService.delete(id)
         res.status(200).send({
-            message: "Produto Deletado!"
+            message: "Produto deletado!"
         })
     } catch (e) {
-        res.status(400).json({
-            status:400,
-            message: "Ocorreu um erro ao deletar o Produto. ERROR: " + e.message,
+        return res.status(400).json({
+            status: 400,
+            message: "Ocorreu um erro ao deletar o produto. ERROR: " + e.message,
         })
     }
 }

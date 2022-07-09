@@ -3,22 +3,27 @@ module.exports = (sequelize, Sequelize) => {
         id: {
             type: Sequelize.INTEGER,
             primaryKey: true,
-            autoIncrement: true,
+            autoIncrement: true
         },
         name: {
-            type: Sequelize.STRING,
+            type: Sequelize.STRING(100),
             notNull: true,
         },
-        units: {
-            type: Sequelize.INTEGER,
+        description: {
+            type: Sequelize.STRING(500),
             notNull: true,
         },
         price: {
-            type: Sequelize.DECIMAL(10,2),
+            type: Sequelize.DECIMAL(10, 2),
+            notNull: true,
+        },
+        quantity: {
+            type: Sequelize.INTEGER,
             notNull: true,
         },
     },
     {
-       timestamps: false, 
-    })
+        timestamps: false,
+    });
+    return Product;
 }
