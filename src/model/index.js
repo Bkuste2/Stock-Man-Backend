@@ -1,5 +1,5 @@
-const sequelize = require('../config/dbconfig');
 const Sequelize = require('sequelize');
+const sequelize = require('../config/dbconfig');
 
 const { pool } = sequelize
 const { MAX, MIN, ACQUIRE, IDLE } = pool
