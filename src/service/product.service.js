@@ -14,7 +14,7 @@ exports.findAll = async () => {
 
 exports.findById = async (id) => {
     try {
-        const product = await Product.findById(id, {
+        const product = await Product.findByPk(id, {
             attributes: ['id', 'name', 'description', 'price', 'quantity']
         })
         return product 

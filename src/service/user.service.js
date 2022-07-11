@@ -14,7 +14,7 @@ exports.findAll = async () => {
 
 exports.findById = async (id) => {
     try {
-        const user = await User.findById(id, {
+        const user = await User.findByPk(id, {
             attributes: ['id', 'username', 'email', 'password']
         })
         return user
@@ -32,14 +32,14 @@ exports.create = async ( username, email, password ) => {
     } 
 }
 
-exports.update = async({id, username, email, password}) => {
+exports.update = async (id, username, email, password) => {
     try {
         await User.update(
             {username, email, password},
             {where: {id}}
         )
     } catch (e) {
-        throw Error("Erro ao alterar informações. ERROR: " + e.message)
+        
     }
 }
 
