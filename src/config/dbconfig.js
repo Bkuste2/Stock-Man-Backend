@@ -1,13 +1,14 @@
-module.exports = {
-    HOST: 'localhost',
-    USER: 'postgres',
-    PASSWORD: 'postgres',
-    DB: 'stockman_db',
-    DIALECT: 'postgres',
-    pool: {
-        MAX: 5,
-        MIN: 0,
-        ACQUIRE: 30000,
-        IDLE:10000,
-    }
-}
+const Sequelize = require("sequelize");
+
+const sequelize = new Sequelize(process.env.DATABASE_URL, {
+  dialectOptions:{
+      ssl: {
+          rejectUnauthorized: false,
+      },
+  },
+});
+
+sequelize.authenticate().then(() => console.log("Connection has been established successfully!"))
+.catch((err) => console.log("Unable to connect to database. Error: " + err));
+
+module.exports = sequelize; 

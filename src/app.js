@@ -7,8 +7,8 @@ const index = require('./router/index')
 const userRouter = require('./router/user.router')
 const productRouter = require('./router/product.router')
 
-app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
 app.use(express.json({type:'application/vnd.api+json'}))
 app.use(cors())
 
